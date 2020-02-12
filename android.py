@@ -47,3 +47,22 @@ class Clipboard:
     def set(string):
         """Set clipboard."""
         popen('termux-clipboard-set '+m)
+
+class Toast:
+    """Show toast."""
+    def __init__(self,message,bg_color='',txt_color='',pos=''):
+        """Initiation.
+        '*_color' argument can be a standard name(i.e. 'red', 'grey') or 6/8 digit value(i.e.'#FF0000' or '#FFFF0000'), where order is (AA)RRGGBB.(AA means transparency.)
+        'pos' argument can be one of the following: 'top', 'middle', 'bottom'.
+        Invalid arguments will revert to default value(grey, white, middle)."""
+        self.message=message
+        self.bg_color=bg_color
+        self.txt_color=txt_color
+        self.pos=pos
+    def show(self):
+        """Show toast"""
+        settings=''
+        if self.bg_color: settings+=f'-b "{self.bg_color}" '
+        if self.txt_color: settings+=f'-c "{self.txt_color}" '
+        if self.pos: settings+=f'-g {self.pos} '
+        popen('termux-toast '+settings+self.message)
